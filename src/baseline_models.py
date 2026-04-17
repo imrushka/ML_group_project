@@ -1,16 +1,16 @@
-from pathlib import Path
+import time
+import joblib
+import json
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import joblib
+from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
-import time
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay
 from sklearn.svm import LinearSVC
-import json
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.calibration import CalibratedClassifierCV
-import numpy as np
 from sklearn.metrics import classification_report, f1_score, accuracy_score, ConfusionMatrixDisplay
 
 NEUTRAL_LABEL = 1
@@ -24,10 +24,8 @@ def predict_with_threshold(model, X, threshold: float) -> np.ndarray:
     proba = model.predict_proba(X)
     preds = np.argmax(proba, axis=1)
     max_proba = proba.max(axis=1)
-    # Map model class indices to our label schema
     classes = model.classes_
     preds_mapped = np.array([classes[p] for p in preds])
-    # Apply threshold: low confidence → neutral
     preds_mapped[max_proba < threshold] = NEUTRAL_LABEL
     return preds_mapped
 
@@ -62,7 +60,7 @@ def main():
         ngram_range=(1, 2), max_features=50_000,
         sublinear_tf=True, min_df=3, strip_accents='unicode'
     )
-    X_train = vec.fit_transform(X_train_raw)  # fit ONLY on train — no leakage
+    X_train = vec.fit_transform(X_train_raw)  # fit only on train — no leakage
     X_val   = vec.transform(X_val_raw)
     X_test  = vec.transform(X_test_raw)
 
@@ -83,9 +81,7 @@ def main():
         random_state=SEED, 
         n_jobs=-1
     )
-    t0 = time.time()
     lr.fit(X_train, y_train)
-    print(f'LR trained in {time.time()-t0:.1f}s')
     joblib.dump(lr, '../models/lr_model.joblib')
 
     for split_name, X, y in [('val', X_val, y_val), ('test', X_test, y_test)]:
@@ -98,7 +94,6 @@ def main():
     svm = LinearSVC(C=1.0, max_iter=2000, random_state=SEED, dual='auto')
     t0 = time.time()
     svm.fit(X_train, y_train)
-    print(f'SVM trained in {time.time()-t0:.1f}s')
     joblib.dump(svm, '../models/svm_model.joblib')
 
     for split_name, X, y in [('val', X_val, y_val), ('test', X_test, y_test)]:
@@ -134,8 +129,7 @@ def main():
     X_tweet_raw = tweet_df['text_clean'].fillna('')
     y_tweet = tweet_df['label'].astype(int)   # 0=neg, 1=neutral, 2=pos
 
-    # Transform with the SAME vectorizer fitted on IMDb train
-    X_tweet = vec.transform(X_tweet_raw)
+    X_tweet = vec.transform(X_tweet_raw) # transform with the same vectrozier
     print(f'X_tweet shape: {X_tweet.shape}')
 
     svm_calibrated = CalibratedClassifierCV(svm, cv=5)
