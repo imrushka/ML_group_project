@@ -1,5 +1,5 @@
 """
-Task 5 — Muhammadjon Merzaqulov
+Task 5 — Muhammadjon Merzakulov
 
 Evaluates the zero-shot baseline on the target domain (Tweets).
 Runs pseudo-labeling on the unlabelled pool using confidence thresholds.
