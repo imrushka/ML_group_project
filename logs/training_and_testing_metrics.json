@@ -1,0 +1,62 @@
+{
+  "imdb": {
+    "LogisticRegression": {
+      "val": {
+        "accuracy": 0.8596,
+        "macro_f1": 0.8596
+      },
+      "test": {
+        "accuracy": 0.8669,
+        "macro_f1": 0.8669
+      }
+    },
+    "LinearSVC": {
+      "val": {
+        "accuracy": 0.8613,
+        "macro_f1": 0.8613
+      },
+      "test": {
+        "accuracy": 0.8671,
+        "macro_f1": 0.8671
+      }
+    }
+  },
+  "tweet_zeroshot": {
+    "LogisticRegression": {
+      "0.55": {
+        "accuracy": 0.431,
+        "macro_f1": 0.4095
+      },
+      "0.65": {
+        "accuracy": 0.4253,
+        "macro_f1": 0.4038
+      },
+      "0.75": {
+        "accuracy": 0.404,
+        "macro_f1": 0.3281
+      }
+    },
+    "LinearSVC": {
+      "0.55": {
+        "accuracy": 0.4282,
+        "macro_f1": 0.3924
+      },
+      "0.65": {
+        "accuracy": 0.4241,
+        "macro_f1": 0.4134
+      },
+      "0.75": {
+        "accuracy": 0.4195,
+        "macro_f1": 0.3947
+      }
+    }
+  },
+  "best_thresholds": {
+    "LogisticRegression": 0.55,
+    "LinearSVC": 0.65
+  },
+  "domain_gap": {
+    "LogisticRegression": 0.4574,
+    "LinearSVC": 0.4537
+  }
+}
