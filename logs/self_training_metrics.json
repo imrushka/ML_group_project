@@ -1,0 +1,15 @@
+{
+  "accepted_samples": 7199,
+  "metrics": [
+    {
+      "Model": "Zero-Shot Baseline",
+      "Accuracy": 0.5437,
+      "Macro-F1": 0.435
+    },
+    {
+      "Model": "Self-Trained Model",
+      "Accuracy": 0.6126,
+      "Macro-F1": 0.6109
+    }
+  ]
+}updated
