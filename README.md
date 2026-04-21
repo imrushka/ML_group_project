@@ -7,6 +7,8 @@ Week 9 deliverable — data collection + cleaning
 
 Week 10-11 delivarable — training and testing baseline models (Log Regressioand and Linear SVM for now) and comparison in 2 different domains
 
+Week 13 deliverable — Few-shot domain adaptation: K-shot training on labelled tweets + learning curve
+
 
 ## Layout
 ```
@@ -14,27 +16,31 @@ src/
   config.py             shared paths, seed, label schema
   data_collection.py    Task 1 (Imran): pulls IMDb + TweetEval, writes data/raw/
   data_cleaning.py      Task 2 (Ivan): cleans, balances, splits → data/processed/
-  baseline_models.py    Task 3 (Angsar): LR + SVM training, threshold-based zero-shot evaluation
+  baseline_models.py      Task 3 (Angsar): LR + SVM training, threshold-based zero-shot evaluation
+  few_shot_adaptation.py  Task 5 (Yerlan): K-shot fine-tuning on tweets + learning curve
 data/
-  raw/                
+  raw/
     imdb_raw.csv
     tweeteval_raw.csv
     manifest.json
-  processed/          
+  processed/
     imdb_{train,val,test}.csv
     tweet_final_test.csv,
-    tweet_unlabelled_pool.csv, 
+    tweet_unlabelled_pool.csv,
     _tweet_pool_labels_DIAGNOSTIC_ONLY.csv
-logs/                 
-  collect.log 
+logs/
+  collect.log
   clean.log
   training_and_testing_metric.json
-/notebooks            
+  few_shot_metrics.json
+/notebooks
   baseline_models.ipynb
-/models               
+  few_shot_adaptation.ipynb
+/models
   lr_model.joblib
   svm_model.joblib
   tfidf_vectorizer.joblib
+  roberta_fewshot_k{K}/
 
 
 ## Reproduce
@@ -45,6 +51,8 @@ python3 -m venv .venv
 .venv/bin/python src/data_collection.py
 .venv/bin/python src/data_cleaning.py
 .venv/bin/python src/baseline_models.py
+.venv/bin/python src/fine_tuning.py
+.venv/bin/python src/few_shot_adaptation.py
 ```
 Fixed seed (42). Label schema: `{negative:0, neutral:1, positive:2}`.
 
