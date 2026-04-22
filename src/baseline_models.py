@@ -41,13 +41,13 @@ def main():
     train_df['word_count'] = train_df['text_clean'].str.split().str.len()
 
 
-    #===TfidVectorizer===
+    #===TfidfVectorizer===
 
     SEED = 42
     Path('../models').mkdir(exist_ok=True)
     Path('../logs').mkdir(exist_ok=True)
 
-    ID2LABEL = {0: 'negative', 1: 'neutral', 2: 'positive'}
+    labels = {0: 'negative', 1: 'neutral', 2: 'positive'}
 
     X_train_raw = train_df['text_clean'].fillna('')
     X_val_raw   = val_df['text_clean'].fillna('')
@@ -73,7 +73,7 @@ def main():
     #===Logistic Regression===
 
     present_labels = sorted(y_train.unique())
-    label_names_binary = [ID2LABEL[i] for i in present_labels]
+    label_names_binary = [labels[i] for i in present_labels]
 
     lr = LogisticRegression(
         C=1.0, max_iter=1000, 
@@ -148,7 +148,7 @@ def main():
 
         for threshold in THRESHOLDS:
             y_pred = predict_with_threshold(model, X_tweet, threshold)
-            acc      = accuracy_score(y_tweet, y_pred)
+            acc = accuracy_score(y_tweet, y_pred)
             macro_f1 = f1_score(y_tweet, y_pred, average='macro', zero_division=0)
 
             tweet_results[model_name][threshold] = {
